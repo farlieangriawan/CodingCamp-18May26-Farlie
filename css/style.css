@@ -1,0 +1,615 @@
+/* ============================================================
+   CSS Custom Properties — Light Theme (default)
+   ============================================================ */
+:root {
+  --color-bg:              #f0f4f8;
+  --color-surface:         #ffffff;
+  --color-surface-alt:     #f8fafc;
+  --color-text:            #1a1a2e;
+  --color-text-muted:      #4a5568;
+  --color-primary:         #ff7700;
+  --color-primary-hover:   #f48844;
+  --color-secondary:       #6b7280;
+  --color-secondary-hover: #4b5563;
+  --color-danger:          #dc2626;
+  --color-border:          #e2e8f0;
+  --color-completed:       #9ca3af;
+  --color-timer-ended-bg:  #dcfce7;
+  --color-timer-ended-fg:  #16a34a;
+  --color-item-hover:      #eef2ff;
+  --color-link-hover-border: #4680e5;
+  --color-select-bg:       #ffffff;
+
+  --font-size-base:  16px;
+  --font-size-sm:    0.875rem;
+  --font-size-lg:    1.125rem;
+  --font-size-xl:    1.25rem;
+  --font-size-2xl:   1.5rem;
+  --font-size-3xl:   2rem;
+  --font-size-4xl:   3rem;
+
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  12px;
+
+  --shadow-md:  0 4px 12px rgba(0,0,0,0.10);
+
+  --gap:     1rem;
+  --padding: 1.25rem;
+
+  /* Greeting gradient stays the same in both themes */
+  --greeting-gradient: linear-gradient(135deg, #ff7700 0%, #ff9123 100%);
+}
+
+/* ============================================================
+   Dark Theme
+   ============================================================ */
+[data-theme="dark"] {
+  --color-bg:              #0f172a;
+  --color-surface:         #1e293b;
+  --color-surface-alt:     #1e293b;
+  --color-text:            #f1f5f9;
+  --color-text-muted:      #94a3b8;
+  --color-primary:         #ff7700;
+  --color-primary-hover:   #f48844;
+  --color-secondary:       #64748b;
+  --color-secondary-hover: #475569;
+  --color-danger:          #f87171;
+  --color-border:          #334155;
+  --color-completed:       #475569;
+  --color-timer-ended-bg:  #14532d;
+  --color-timer-ended-fg:  #4ade80;
+  --color-item-hover:      #1e3a5f;
+  --color-link-hover-border: #818cf8;
+  --color-select-bg:       #1e293b;
+
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.40);
+}
+
+/* ============================================================
+   Reset & Base
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+               Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  border: none;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+input, select {
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.6rem;
+  outline: none;
+  transition: border-color 0.15s ease, background-color 0.25s ease, color 0.25s ease;
+}
+
+input:focus, select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+}
+
+select {
+  background: var(--color-select-bg);
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+}
+
+/* ============================================================
+   Unsupported Browser Banner
+   ============================================================ */
+.unsupported-banner {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 9999;
+  background: var(--color-danger);
+  color: #fff;
+  text-align: center;
+  padding: 0.75rem 1rem;
+  font-size: var(--font-size-base);
+  font-weight: 600;
+}
+
+/* ============================================================
+   Top Bar (theme toggle)
+   ============================================================ */
+.topbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.5rem var(--gap) 0;
+}
+
+.topbar__theme-btn {
+  font-size: 1.1rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radius-md);
+}
+
+/* ============================================================
+   Dashboard Grid Layout
+   Row 1: greeting full width  (col-span 2)
+   Row 2: timer + links        (1fr 1fr)
+   Row 3: todo full width      (col-span 2)
+   ============================================================ */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto 1fr;
+  gap: var(--gap);
+  padding: 0.5rem var(--gap) var(--gap);
+  min-height: calc(100vh - 2.5rem); /* subtract topbar */
+  box-sizing: border-box;
+}
+
+/* Row 1 — greeting spans both columns */
+.widget--greeting {
+  grid-column: 1 / -1;
+}
+
+/* Row 3 — todo spans both columns */
+.widget--todo {
+  grid-column: 1 / -1;
+}
+
+/* ============================================================
+   Widget Card
+   ============================================================ */
+.widget {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--padding);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: background-color 0.25s ease;
+}
+
+.widget__heading {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+/* ============================================================
+   Button Variants
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0.85rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.btn--primary {
+  background: var(--color-primary);
+  color: #fff;
+}
+.btn--primary:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
+
+.btn--secondary {
+  background: var(--color-secondary);
+  color: #fff;
+}
+.btn--secondary:hover:not(:disabled) {
+  background: var(--color-secondary-hover);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+}
+.btn--ghost:hover:not(:disabled) {
+  background: var(--color-bg);
+}
+
+/* Used inside the gradient greeting widget */
+.btn--light-outline {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.6);
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-sm);
+}
+.btn--light-outline:hover:not(:disabled) {
+  background: rgba(255,255,255,0.15);
+}
+
+.btn--danger {
+  background: transparent;
+  color: var(--color-danger);
+  border: 1px solid transparent;
+  padding: 0.25rem 0.5rem;
+  font-size: var(--font-size-sm);
+}
+.btn--danger:hover:not(:disabled) {
+  background: rgba(220, 38, 38, 0.1);
+}
+
+.btn--icon {
+  background: transparent;
+  color: var(--color-text-muted);
+  border: 1px solid transparent;
+  padding: 0.25rem 0.5rem;
+  font-size: var(--font-size-sm);
+}
+.btn--icon:hover:not(:disabled) {
+  background: var(--color-bg);
+  color: var(--color-primary);
+}
+
+/* ============================================================
+   Error / Validation Message
+   ============================================================ */
+.error-msg {
+  font-size: var(--font-size-sm);
+  color: var(--color-danger);
+  margin-top: 0.35rem;
+  min-height: 1.2em;
+}
+
+/* ============================================================
+   Widget 1 — Greeting (Row 1, full width)
+   ============================================================ */
+.widget--greeting {
+  background: var(--greeting-gradient) !important;
+  color: #fff;
+  padding: 1.5rem var(--padding);
+}
+
+.greeting__body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.greeting__left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.greeting__text {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.greeting__clock {
+  font-size: var(--font-size-4xl);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: #fff;
+}
+
+.greeting__date {
+  font-size: var(--font-size-base);
+  color: rgba(255,255,255,0.8);
+  margin-top: 0.2rem;
+}
+
+/* Name form inside greeting */
+.greeting__right {
+  display: flex;
+  align-items: center;
+}
+
+.greeting__name-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.greeting__name-label {
+  font-size: var(--font-size-sm);
+  color: rgba(255,255,255,0.75);
+  font-weight: 500;
+}
+
+.greeting__name-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.greeting__name-input {
+  background: rgba(255,255,255,0.15) !important;
+  border: 1px solid rgba(255,255,255,0.4) !important;
+  color: #fff !important;
+  border-radius: var(--radius-sm);
+  padding: 0.35rem 0.65rem;
+  width: 180px;
+}
+
+.greeting__name-input::placeholder {
+  color: rgba(255,255,255,0.55);
+}
+
+.greeting__name-input:focus {
+  border-color: rgba(255,255,255,0.8) !important;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.2) !important;
+}
+
+/* ============================================================
+   Widget 2 — Focus Timer (Row 2, col 1)
+   ============================================================ */
+.widget--timer {
+  align-items: center;
+  text-align: center;
+}
+
+.timer__display {
+  font-size: var(--font-size-4xl);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--color-text);
+  margin: 0.5rem 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.timer__ended {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-timer-ended-fg);
+  margin-bottom: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  background: var(--color-timer-ended-bg);
+  border-radius: var(--radius-sm);
+}
+
+.timer__controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* ============================================================
+   Widget 3 — Quick Links (Row 2, col 2)
+   ============================================================ */
+.widget--links {
+  overflow: hidden;
+}
+
+.links__add-form {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.25rem;
+}
+
+.links__add-form input {
+  flex: 1;
+  min-width: 80px;
+}
+
+.links__panel {
+  flex: 1;
+  overflow-y: auto;
+  margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-content: flex-start;
+}
+
+.links__panel::-webkit-scrollbar { width: 4px; }
+.links__panel::-webkit-scrollbar-track { background: transparent; }
+.links__panel::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 2px; }
+
+.link__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.3rem 0.5rem 0.3rem 0.75rem;
+  transition: background 0.1s, border-color 0.1s;
+}
+
+.link__item:hover {
+  background: var(--color-item-hover);
+  border-color: var(--color-link-hover-border);
+}
+
+.link__anchor {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+  white-space: nowrap;
+  max-width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.link__anchor:hover {
+  text-decoration: underline;
+}
+
+/* ============================================================
+   Widget 4 — To-Do List (Row 3, full width)
+   ============================================================ */
+.widget--todo {
+  min-height: 260px;
+}
+
+/* Header row: heading + sort control */
+.todo__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.todo__header .widget__heading {
+  margin-bottom: 0;
+}
+
+.todo__sort {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.todo__sort-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.todo__sort-select {
+  padding: 0.3rem 0.5rem;
+  font-size: var(--font-size-sm);
+  border-radius: var(--radius-sm);
+}
+
+.todo__add-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.todo__add-form input {
+  flex: 1;
+  min-width: 0;
+}
+
+.todo__list {
+  flex: 1;
+  overflow-y: auto;
+  margin-top: 0.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.4rem;
+  align-content: start;
+  max-height: 260px;
+}
+
+.todo__list::-webkit-scrollbar { width: 4px; }
+.todo__list::-webkit-scrollbar-track { background: transparent; }
+.todo__list::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 2px; }
+
+/* Task item */
+.todo__item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  transition: background 0.1s;
+}
+
+.todo__item:hover {
+  background: var(--color-item-hover);
+}
+
+.todo__item-text {
+  flex: 1;
+  font-size: var(--font-size-sm);
+  word-break: break-word;
+  color: var(--color-text);
+}
+
+.todo__item-text.completed {
+  text-decoration: line-through;
+  color: var(--color-completed);
+}
+
+.todo__item-edit-input {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--font-size-sm);
+}
+
+.todo__item-validation {
+  font-size: 0.75rem;
+  color: var(--color-danger);
+  display: block;
+  margin-top: 0.2rem;
+}
+
+/* ============================================================
+   Responsive — single column below 768px
+   ============================================================ */
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    min-height: auto;
+  }
+
+  /* Reset column spans on mobile */
+  .widget--greeting,
+  .widget--todo {
+    grid-column: 1;
+  }
+
+  .greeting__body {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .greeting__name-input {
+    width: 100%;
+  }
+
+  .todo__list {
+    grid-template-columns: 1fr;
+    max-height: 320px;
+  }
+}
